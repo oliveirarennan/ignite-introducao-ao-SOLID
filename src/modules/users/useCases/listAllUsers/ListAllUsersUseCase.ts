@@ -10,6 +10,15 @@ class ListAllUsersUseCase {
 
   execute({ user_id }: IRequest): User[] {
     // Complete aqui
+    const userExists = this.usersRepository.findById(user_id);
+
+    if (!userExists || !userExists.admin) {
+      throw new Error("Operation Forbidden");
+    }
+
+    const users = this.usersRepository.list();
+
+    return users;
   }
 }
 
